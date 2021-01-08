@@ -51,14 +51,6 @@ self assert: c count equals: 0
 ]
 
 { #category : #tests }
-CounterTest >> testStartingAtFive [
-
-| c |
-c := Counter startingAt: 5.
-self assert: c count equals: 5
-]
-
-{ #category : #tests }
 CounterTest >> testWithValueFive [
 
 | c |
