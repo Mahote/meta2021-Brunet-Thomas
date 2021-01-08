@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+Counter class >> withValue: anInteger [
+
+	^ self new count: anInteger
+]
+
+{ #category : #accessing }
 Counter >> count [
  ^ count
 ]
@@ -30,6 +36,8 @@ Counter >> increment [
 { #category : #initialization }
 Counter >> initialize [
 
+	super initialize.
+	count := 0
 ]
 
 { #category : #initialization }
