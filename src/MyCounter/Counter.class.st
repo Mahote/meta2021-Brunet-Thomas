@@ -26,3 +26,16 @@ Counter >> decrement [
 Counter >> increment [ 
 	count := count + 1
 ]
+
+{ #category : #initialization }
+Counter >> initialize [
+
+]
+
+{ #category : #initialization }
+Counter >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ' with Value: ', self count printString.
+
+]
