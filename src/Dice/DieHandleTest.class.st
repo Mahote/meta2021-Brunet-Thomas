@@ -32,6 +32,8 @@ DieHandleTest >> testCreatingAdding [
 DieHandleTest >> testRoll [
 	| handle sum |
 	handle := DieHandle new.
+	handle addDie: (Die  withFaces: 6).
+	handle addDie: (Die  withFaces: 10).
 	sum := handle dice inject: 0 into: [:n :each | n + each faces].
-	10 timesRepeat: [ self assert: (handle roll between: handle diceNumber and:sum) ]
+	100 timesRepeat: [ self assert: (handle roll between: handle diceNumber and:sum) ]
 ]
