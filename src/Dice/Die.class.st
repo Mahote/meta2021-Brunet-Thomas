@@ -17,3 +17,8 @@ Die >> initialize [
 	super initialize.
 	faces := 6
 ]
+
+{ #category : #functions }
+Die >> roll [
+	^(1 to: faces)atRandom 
+]
