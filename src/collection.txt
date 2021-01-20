@@ -1,0 +1,5 @@
+a :=  #(1 2 3 -44 0 5 6 4 5 -3 22 1 2 5).
+positifs := a select: [ :a | a>0 ].
+carresNombres := a collect: [ :a | a**2 ].
+sommeNombre := a inject: 0 into: [ :sum :each | sum + each ].
+premierNegatif := a detect: [ :a | a<0 ].
