@@ -1,6 +1,6 @@
 Class {
 	#name : #ENegation,
-	#superclass : #Object,
+	#superclass : #EExpression,
 	#instVars : [
 		'expression'
 	],
@@ -17,9 +17,4 @@ ENegation >> evaluate [
 ENegation >> expression: anExpression [
 	expression := anExpression
 	
-]
-
-{ #category : #arithmetic }
-ENegation >> negated [
-	^ENegation  new expression: self
 ]

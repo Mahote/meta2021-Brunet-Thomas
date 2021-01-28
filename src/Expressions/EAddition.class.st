@@ -1,6 +1,6 @@
 Class {
 	#name : #EAddition,
-	#superclass : #Object,
+	#superclass : #EExpression,
 	#instVars : [
 		'left',
 		'right'
@@ -16,11 +16,6 @@ EAddition >> evaluate [
 { #category : #accessing }
 EAddition >> left: anExpression [
 	left := anExpression 
-]
-
-{ #category : #arithmetic }
-EAddition >> negated [ 
-	^ENegation new expression: self
 ]
 
 { #category : #accessing }

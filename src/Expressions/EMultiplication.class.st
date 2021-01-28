@@ -1,6 +1,6 @@
 Class {
 	#name : #EMultiplication,
-	#superclass : #Object,
+	#superclass : #EExpression,
 	#instVars : [
 		'left',
 		'right'
@@ -16,11 +16,6 @@ EMultiplication >> evaluate [
 { #category : #accessing }
 EMultiplication >> left: anExpression [
 	left := anExpression 
-]
-
-{ #category : #'public access' }
-EMultiplication >> negated [
-	^ENegation new expression: self
 ]
 
 { #category : #accessing }

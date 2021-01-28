@@ -1,6 +1,6 @@
 Class {
 	#name : #EConstant,
-	#superclass : #Object,
+	#superclass : #EExpression,
 	#instVars : [
 		'value'
 	],
@@ -10,11 +10,6 @@ Class {
 { #category : #'public access' }
 EConstant >> evaluate [ 
 	^ value
-]
-
-{ #category : #arithmetic }
-EConstant >> negated [ 
-	^ENegation new expression: self
 ]
 
 { #category : #accessing }
