@@ -12,6 +12,11 @@ EConstant >> evaluate [
 	^ value
 ]
 
+{ #category : #arithmetic }
+EConstant >> negated [ 
+	^ENegation new expression: self
+]
+
 { #category : #accessing }
 EConstant >> value: anInteger [
 	value := anInteger 

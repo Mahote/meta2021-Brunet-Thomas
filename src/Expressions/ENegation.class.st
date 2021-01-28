@@ -18,3 +18,8 @@ ENegation >> expression: anExpression [
 	expression := anExpression
 	
 ]
+
+{ #category : #arithmetic }
+ENegation >> negated [
+	^ENegation  new expression: self
+]
