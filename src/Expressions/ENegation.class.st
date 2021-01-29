@@ -8,13 +8,30 @@ Class {
 }
 
 { #category : #accessing }
-ENegation >> evaluate [
-	^(expression evaluate negated)
-	
+ENegation class >> expression: anExpression [
+	^self new expression: anExpression 
+
+]
+
+{ #category : #accessing }
+ENegation >> evaluateWith: anObject [
+	^ (expression evaluateWith: anObject) negated
 ]
 
 { #category : #accessing }
 ENegation >> expression: anExpression [
 	expression := anExpression
 	
+]
+
+{ #category : #arithmetic }
+ENegation >> negated [
+	^ expression
+]
+
+{ #category : #printing }
+ENegation >> printOn: aStream [
+	aStream nextPutAll: '- '.
+	expression printOn: aStream
+		
 ]

@@ -1,24 +1,31 @@
 Class {
 	#name : #EAddition,
-	#superclass : #EExpression,
-	#instVars : [
-		'left',
-		'right'
-	],
+	#superclass : #EBinaryExpression,
 	#category : #Expressions
 }
 
-{ #category : #accessing }
-EAddition >> evaluate [ 
-	^ (left evaluate  + right evaluate)
+{ #category : #'as yet unclassified' }
+EAddition class >> fivePlusThree [
+	<sampleInstance>
+	| ep1 ep2 |
+	ep1 := EConstant constant5.
+	ep2 := EConstant constant3.
+	^self new left: ep1 ; right: ep2
+	
+]
+
+{ #category : #'instance creation' }
+EAddition class >> left: anInteger right: anInteger2 [
+	^self new left: anInteger ; right: anInteger2 
 ]
 
 { #category : #accessing }
-EAddition >> left: anExpression [
-	left := anExpression 
+EAddition >> evaluateWith: anObject [
+	^ (left evaluateWith: anObject )
+		+ (right evaluateWith: anObject)
 ]
 
-{ #category : #accessing }
-EAddition >> right: anExpression [ 
-	right := anExpression  
+{ #category : #'as yet unclassified' }
+EAddition >> operatorString [
+^' + '
 ]

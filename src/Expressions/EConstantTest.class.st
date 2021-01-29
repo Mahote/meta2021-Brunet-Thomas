@@ -5,11 +5,28 @@ Class {
 }
 
 { #category : #tests }
+EConstantTest >> testCreationWithTheClassCrreationMessage [
+	self
+		assert: ((EConstant value: 5) evaluateWith: Dictionary new)
+		equals: 5
+]
+
+{ #category : #tests }
 EConstantTest >> testEvaluate [
-	self assert: (EConstant new value: 5) evaluate equals: 5
+	self
+		assert: ((EConstant new value: 5) evaluateWith: Dictionary new)
+		equals: 5
 ]
 
 { #category : #tests }
 EConstantTest >> testNegated [
-	self assert: (EConstant new value: 6) negated evaluate equals: -6
+	self
+		assert: ((EConstant new value: 6) negated evaluateWith: Dictionary new)
+		equals: -6
+]
+
+{ #category : #'as yet unclassified' }
+EConstantTest >> testprinting [
+	self assert: (EConstant value: 5) printString equals: '5'
+	
 ]
