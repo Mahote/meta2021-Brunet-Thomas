@@ -2,7 +2,7 @@ Class {
 	#name : #CHInterpreter,
 	#superclass : #Object,
 	#instVars : [
-		'receiver',
+		'stack',
 		'globalScope'
 	],
 	#category : #'Champollion-Core'
@@ -10,16 +10,69 @@ Class {
 
 { #category : #'as yet unclassified' }
 CHInterpreter >> currentScope [ 
-	^CHInstanceScope  new 
-	receiver: self receiver; 
-	parentScope: globalScope;
-	yourself 
+	^self topFrame
 ]
 
 { #category : #running }
 CHInterpreter >> execute: anAST withReceiver: anObject [
-	receiver := anObject.
-	^ self visitNode: anAST
+	| result |
+	self pushNewFrame.
+	"Set up the scope chain"
+	self topFrame parentScope: (CHInstanceScope new 
+		receiver: anObject;
+		parentScope: globalScope;
+		yourself);
+	yourself.
+		
+	self topFrame receiver: anObject.
+	result := self visitNode: anAST.
+	self popFrame.
+	^ result
+	
+]
+
+{ #category : #running }
+CHInterpreter >> execute: anAST withReceiver: anObject andArguments: aCollection [
+	| result |
+	self pushNewFrame.
+	"Set up the scope chain"
+	self topFrame parentScope: (CHInstanceScope new 
+		receiver: anObject;
+		parentScope: globalScope;
+		yourself);
+	yourself.
+	self topFrame receiver: anObject.
+	anAST arguments with: aCollection
+		do: [ :arg :value | self topFrame at: arg name put: value].
+	result := self visitNode: anAST.
+	self popFrame.
+	^ result
+	
+]
+
+{ #category : #'as yet unclassified' }
+CHInterpreter >> executeMethod: anAST withReceiver: anObject [
+	^self
+		executeMethod: anAST withReceiver: anObject andArguments: #()
+]
+
+{ #category : #running }
+CHInterpreter >> executeMethod: anAST withReceiver: anObject andArguments: aCollection [
+	| result |
+	self pushNewFrame.
+	"Set up the scope chain"
+	self topFrame parentScope: (CHInstanceScope new 
+		receiver: anObject;
+		parentScope: globalScope;
+		yourself);
+	yourself.
+	self topFrame receiver: anObject.
+	anAST arguments with: aCollection
+		do: [ :arg :value | self topFrame at: arg name put: value].
+	result := self visitNode: anAST.
+	self popFrame.
+	^ result
+	
 ]
 
 { #category : #initialization }
@@ -30,18 +83,38 @@ CHInterpreter >> globalEnvironmentAt: aSymbol put: anObject [
 { #category : #initialization }
 CHInterpreter >> initialize [ 
 	super initialize.
+	stack := CTStack new.
 	globalScope := CHGlobalScope new
+]
+
+{ #category : #running }
+CHInterpreter >> popFrame [
+	stack pop 
+	
+]
+
+{ #category : #running }
+CHInterpreter >> pushNewFrame [
+	| newTop |
+	newTop := CHMethodScope new.
+	stack push: newTop.
+	^newTop
 ]
 
 { #category : #accessing }
 CHInterpreter >> receiver [
-	^receiver
+	^self topFrame receiver
 
 ]
 
 { #category : #'as yet unclassified' }
 CHInterpreter >> scopeDefining: aName [
 	^ self currentScope scopeDefining: aName
+]
+
+{ #category : #initialization }
+CHInterpreter >> topFrame [
+	^stack top
 ]
 
 { #category : #'as yet unclassified' }
@@ -69,6 +142,15 @@ CHInterpreter >> visitLiteralArrayNode: aLiteralArrayNode [
 { #category : #visiting }
 CHInterpreter >> visitLiteralValueNode: aLiteralNode [
 	^aLiteralNode value
+]
+
+{ #category : #visiting }
+CHInterpreter >> visitMessageNode: aMessageNode [
+	| newReceiver method args |
+	args := aMessageNode arguments collect: [ :each | self visitNode:each ].
+	newReceiver := self visitNode: aMessageNode receiver.
+	method := (newReceiver class compiledMethodAt: aMessageNode selector) ast.
+	^ self executeMethod: method withReceiver: newReceiver andArguments: args
 ]
 
 { #category : #running }
